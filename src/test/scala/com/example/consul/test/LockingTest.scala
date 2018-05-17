@@ -18,7 +18,7 @@ class LockingTest extends WordSpec with Matchers with ScalaFutures {
 
 
   def attempt(locker: Locker, name: String, key: String) = {
-    val (lock, f) = locker.lock(key, name)
+    val (lock, f) = locker.lock(key, name, 2000, 10)
     f.onComplete( result => {
       lock.unlock()
       result.fold({ e =>
@@ -43,7 +43,7 @@ class LockingTest extends WordSpec with Matchers with ScalaFutures {
 
 
 
-        val (lock, f) = locker.lock(key, "goody")
+        val (lock, f) = locker.lock(key, "goody", 2000, 10)
 
         whenReady(f, timeout(Span(30, Seconds))) { s =>
           s should be(true)
@@ -53,7 +53,7 @@ class LockingTest extends WordSpec with Matchers with ScalaFutures {
 
       "have simple usage" in {
 
-        val (lock, f) = locker.lock("simpleUsage", "simpleLock")
+        val (lock, f) = locker.lock("simpleUsage", "simpleLock", 2000, 10)
 
         whenReady(f, timeout(Span(30, Seconds))) { s =>
           s should be(true)

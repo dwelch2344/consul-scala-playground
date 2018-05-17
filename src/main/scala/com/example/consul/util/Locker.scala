@@ -19,10 +19,10 @@ class Locker(implicit client: ConsulClient, ec: ExecutionContext) {
   val log = LoggerFactory.getLogger(getClass)
 
 
-  def lock(key: String, label: String) = {
+  def lock(key: String, label: String, interval: Long, maxAttempts: Long) = {
     val s  = session()
     val lock = Lock(s, s"locks/$key", label)
-    val f = lock.lock(2000, 10)
+    val f = lock.lock(interval, maxAttempts)
     (lock, f)
   }
 
