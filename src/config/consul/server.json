@@ -1,0 +1,8 @@
+{
+  "ui": true,
+  "client_addr": "0.0.0.0",
+  "dns_config": {
+    "allow_stale": false,
+    "max_stale" : "1s"
+  }
+}
